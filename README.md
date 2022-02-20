@@ -15,3 +15,9 @@ make
 ./vm ../tests/test.bc
 ```
 
+Videos to walk you through the code:
+    * [Overview, lexer and parser](https://youtu.be/F9MhBISX10s)
+    * Type inference (coming soon)
+    * Ast to IR (coming soon)
+    * IR to bytecode (coming soon)
+    * Virtual machine (coming soon)

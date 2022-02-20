@@ -20,7 +20,7 @@
 %nonassoc ARROW
 %nonassoc COMMA
 %left EQ
-%nonassoc LT
+%left LT
 %left PLUS MINUS
 %left TIMES
 %nonassoc FST SND

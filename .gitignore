@@ -1,1 +1,7 @@
 _build
+vm/CMakeCache.txt
+vm/CMakeFiles
+vm/Makefile
+vm/cmake_install.cmake
+vm/libvmlib.a
+vm/vm
