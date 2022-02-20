@@ -16,6 +16,7 @@ make
 ```
 
 Videos to walk you through the code:
+
     * [Overview, lexer and parser](https://youtu.be/F9MhBISX10s)
     * Type inference (coming soon)
     * Ast to IR (coming soon)
