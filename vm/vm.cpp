@@ -162,7 +162,7 @@ bool vm::structural_lt(int v1, int v2) const {
     }    
 }
 
-ostream& operator<<(ostream& os, const vm& vm) {
+ostream& operator<<(ostream& os, const vm& vm) {    
     vm.print_value(os, vm.stack[vm.sp]);
     os << '\n';
     os << "program size : " << setw(4) << vm.instruction_memory.size() << " bytes\n";
@@ -172,16 +172,29 @@ ostream& operator<<(ostream& os, const vm& vm) {
 }
 
 void vm::print_value(ostream& os, int v) const {
+    set<int> seen;
+    print_value(os, seen, v);
+}
+
+void vm::print_value(ostream& os, set<int>& seen, int v) const {    
     if (is_addrm(v)) {
         int a = daddrm(v);
         if (a == 0) { 
             os << "nil";
             return;
         }
+        if (seen.count(v)) {
+            os << "...";
+            return;
+        }
         os << '(';
-        print_value(os, data_memory[a]);
+        seen.insert(v);
+        print_value(os, seen, data_memory[a]);
+        seen.erase(v);
         os << ", ";
-        print_value(os, data_memory[a + 1]);
+        seen.insert(v);
+        print_value(os, seen, data_memory[a + 1]);
+        seen.erase(v);
         os << ')';
         return;
     }

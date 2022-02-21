@@ -3,6 +3,7 @@
 #include <vector>
 #include <iostream>
 #include <string>
+#include <set>
 
 class vm {
     enum opcode : uint8_t {
@@ -81,6 +82,7 @@ class vm {
     void print_stack(std::ostream&) const;
     void print_memory(std::ostream&) const;
     void print_value(std::ostream&, int v) const;
+    void print_value(std::ostream&, std::set<int>& seen, int v) const;
 public:
     vm(size_t dsize, size_t ssize, const std::string& program);
     void exec();

@@ -110,6 +110,8 @@ let rec pp_texpr fmt { tdescr; typ } =
 let pp_tprogram fmt prog =
   pp_texpr fmt prog
   
+let seen = Hashtbl.create 51
+
 let rec pp_ir_instruction fmt = function 
   | STOP -> 
       fprintf fmt "STOP"
@@ -169,9 +171,22 @@ and pp_ir_value fmt = function
       fprintf fmt "ADDR(@[<v>%a@])"
         (pp_print_list ~pp_sep:pp_print_cut pp_ir_instruction) l
   | PAIR (v1, v2) ->
+      let pp fmt v =
+        if Hashtbl.mem seen v then 
+            fprintf fmt "..."
+        else begin 
+            Hashtbl.add seen v ();
+            fprintf fmt "%a" pp_ir_value !v;
+            Hashtbl.remove seen v
+        end
+      in
       fprintf fmt "PAIR(@[<hov>%a,@ %a@])"
-        pp_ir_value !v1
-        pp_ir_value !v2   
+        pp v1
+        pp v2   
         
+let pp_ir fmt ir =
+    Hashtbl.clear seen;
+    fprintf fmt "%a" (pp_print_list ~pp_sep:pp_print_cut pp_ir_instruction) ir
+
 let pp_bytecode fmt bc =
   fprintf fmt "%02x" (int_of_char bc)

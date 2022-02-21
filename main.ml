@@ -63,12 +63,11 @@ let () =
     end;
     let ir = To_ir.tprogram_to_ir tprog in
     if !show_ir then begin 
-      fprintf std_formatter "@[<v>%a@]@."
-        (pp_print_list ~pp_sep:pp_print_cut Pp.pp_ir_instruction) ir
-    end;
+      fprintf std_formatter "@[<v>%a@]@." Pp.pp_ir ir        
+    end; 
     let res = Ir_simulator.exec ir in
     fprintf std_formatter "@[<hov 2>result:@ %a@]@."
-      Pp.pp_ir_value res;
+        Pp.pp_ir_value res;
     let bytecode = To_bytecode.ir_to_bytecode ir in    
     if !show_bytecode then begin 
       fprintf std_formatter "@[<v>%a@]@."
@@ -79,7 +78,7 @@ let () =
     List.to_seq bytecode 
     |> Bytes.of_seq 
     |> fprintf std_formatter "%a@?" pp_print_bytes;
-    close_out output
+    close_out output 
   with
     | Lexer.Error msg ->
         Format.fprintf Format.err_formatter "Lexical error: %s@." msg;
