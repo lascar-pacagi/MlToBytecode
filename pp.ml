@@ -110,7 +110,18 @@ let rec pp_texpr fmt { tdescr; typ } =
 let pp_tprogram fmt prog =
   pp_texpr fmt prog
   
-let seen = Hashtbl.create 51
+let seen = ref []
+let mem v = List.exists (fun v' -> v == v') !seen
+let add v = seen := v :: !seen 
+let remove v = 
+    let rec remove prev = function 
+        | [] -> List.rev prev
+        | v' :: r ->
+            if v == v' then List.rev prev @ r
+            else remove (v' :: prev) r 
+    in
+    seen := remove [] !seen
+let clear () = seen := []
 
 let rec pp_ir_instruction fmt = function 
   | STOP -> 
@@ -172,12 +183,12 @@ and pp_ir_value fmt = function
         (pp_print_list ~pp_sep:pp_print_cut pp_ir_instruction) l
   | PAIR (v1, v2) ->
       let pp fmt v =
-        if Hashtbl.mem seen v then 
+        if mem v then 
             fprintf fmt "..."
         else begin 
-            Hashtbl.add seen v ();
+            add v;
             fprintf fmt "%a" pp_ir_value !v;
-            Hashtbl.remove seen v
+            remove v
         end
       in
       fprintf fmt "PAIR(@[<hov>%a,@ %a@])"
@@ -185,7 +196,7 @@ and pp_ir_value fmt = function
         pp v2   
         
 let pp_ir fmt ir =
-    Hashtbl.clear seen;
+    clear ();
     fprintf fmt "%a" (pp_print_list ~pp_sep:pp_print_cut pp_ir_instruction) ir
 
 let pp_bytecode fmt bc =

@@ -8,7 +8,7 @@ let sq = fun x -> x * x in
 
 let id = fun x -> x in 
 
-(id 1, (id false, (id fac) 10))
+(id 1, (id false, id fac))
 
 (* if (1, (sq 100, 42)) = (fac 1, ((double sq) 10, 42)) then
   (true, (fib 10, fac 10))
