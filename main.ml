@@ -53,13 +53,13 @@ let () =
     close_in input;
     (*Format.pp_set_margin Format.std_formatter 15;*)
     let open Format in 
-    if !show_ast then fprintf std_formatter "@[<hov 2>/*@ %a@ */@]@." Pp.pp_program prog;        
+    if !show_ast then fprintf std_formatter "@[<hov 2>(*@ %a@ *)@]@." Pp.pp_program prog;        
     let tprog = Typechecking.typeof prog in
     if !show_type then begin       
-      fprintf std_formatter "@[<hov 2>/*@ %a :@ %a@ */@]@." 
+      fprintf std_formatter "@[<hov 2>(*@ %a :@ %a@ *)@]@." 
         Pp.pp_program prog 
         Pp.pp_typ tprog.typ;
-      fprintf std_formatter "@[<hov 2>/*@ %a@ */@]@." Pp.pp_tprogram tprog     
+      fprintf std_formatter "@[<hov 2>(*@ %a@ *)@]@." Pp.pp_tprogram tprog     
     end;
     let ir = To_ir.tprogram_to_ir tprog in
     if !show_ir then begin 

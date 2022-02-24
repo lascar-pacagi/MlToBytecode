@@ -18,7 +18,9 @@ make
 Videos to walk you through the code:
 
 * [Overview, lexer and parser](https://youtu.be/F9MhBISX10s)
-* Type inference (coming soon)
+* [Type inference](https://youtu.be/bTvyqp4hu-c)
 * Ast to IR (coming soon)
 * IR to bytecode (coming soon)
 * Virtual machine (coming soon)
+
+![screen](screen.png)
