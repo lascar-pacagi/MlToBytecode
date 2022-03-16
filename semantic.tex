@@ -1,0 +1,65 @@
+\documentclass[12pt]{article}
+\usepackage{pdflscape}
+\usepackage{nopageno}
+\usepackage{color}
+
+\begin{document}
+
+\thispagestyle{empty}
+
+\begin{landscape}
+
+\begin{center}
+\begin{tabular}{|l||c|}
+\hline
+\textbf{\texttt{STOP}} & stop the program\\
+\hline 
+\textbf{\texttt{LOAD v}} & stack[sp] $\leftarrow$ v\\
+\hline
+\textbf{\texttt{PUSH v}} & stack[sp + 1] $\leftarrow$ v \textcolor{blue}{$\|$} sp $\leftarrow$ sp + 1\\
+\hline
+\textbf{\texttt{DUPL}} & stack[sp + 1] $\leftarrow$ stack[sp] \textcolor{blue}{$\|$} sp $\leftarrow$ sp + 1\\
+\hline
+\textbf{\texttt{SWAP}} & stack[sp] $\leftarrow$ stack[sp - 1] \textcolor{blue}{$\|$} stack[sp - 1] $\leftarrow$ stack[sp]\\
+\hline
+\textbf{\texttt{ROT3}} & stack[sp] $\leftarrow$ stack[sp - 1] \textcolor{blue}{$\|$} stack[sp - 1] $\leftarrow$ stack[sp - 2] \textcolor{blue}{$\|$} stack[sp - 2] $\leftarrow$ stack[sp]\\
+\hline
+\textbf{\texttt{IROT3}} & stack[sp] $\leftarrow$ stack[sp - 2] \textcolor{blue}{$\|$} stack[sp - 1] $\leftarrow$ stack[sp] \textcolor{blue}{$\|$} stack[sp - 2] $\leftarrow$ stack[sp - 1]\\
+\hline
+\textbf{\texttt{FST}} & stack[sp] $\leftarrow$ mem[stack[sp]]\\
+\hline
+\textbf{\texttt{SND}} & stack[sp] $\leftarrow$ mem[stack[sp] + 1]\\
+\hline
+\textbf{\texttt{SET\_FST}} & mem[stack[sp - 1]] $\leftarrow$ stack[sp] \textcolor{blue}{$\|$} sp $\leftarrow$ sp - 1\\
+\hline
+\textbf{\texttt{SET\_SND}} & mem[stack[sp - 1] + 1] $\leftarrow$ stack[sp] \textcolor{blue}{$\|$} sp $\leftarrow$ sp - 1\\
+\hline
+\textbf{\texttt{CONS}} & mem[mc] $\leftarrow$ stack[sp] \textcolor{blue}{$\|$} mem[mc + 1] $\leftarrow$ stack[sp - 1] \textcolor{blue}{$\|$} stack[sp - 1] $\leftarrow$ mc \textcolor{blue}{$\|$} mc $\leftarrow$ mc + 2 \textcolor{blue}{$\|$} sp $\leftarrow$ sp - 1\\
+\hline
+\textbf{\texttt{SPLIT}} & stack[sp + 1] $\leftarrow$ mem[stack[sp]] \textcolor{blue}{$\|$} stack[sp] $\leftarrow$ mem[stack[sp] + 1] \textcolor{blue}{$\|$} sp $\leftarrow$ sp + 1\\
+\hline
+\textbf{\texttt{ADD}} & stack[sp - 1] $\leftarrow$ (stack[sp] $+$ stack[sp - 1]) \textcolor{blue}{$\|$} sp $\leftarrow$ sp - 1\\
+\hline
+\textbf{\texttt{SUB}} & stack[sp - 1] $\leftarrow$ (stack[sp] $-$ stack[sp - 1]) \textcolor{blue}{$\|$} sp $\leftarrow$ sp - 1\\
+\hline
+\textbf{\texttt{MUL}} & stack[sp - 1] $\leftarrow$ (stack[sp] $\times$ stack[sp - 1]) \textcolor{blue}{$\|$} sp $\leftarrow$ sp - 1\\
+\hline
+\textbf{\texttt{EQ}} & stack[sp - 1] $\leftarrow$ (stack[sp] $=$ stack[sp - 1]) \textcolor{blue}{$\|$} sp $\leftarrow$ sp - 1\\
+\hline
+\textbf{\texttt{LT}} & stack[sp - 1] $\leftarrow$ (stack[sp] $<$ stack[sp - 1]) \textcolor{blue}{$\|$} sp $\leftarrow$ sp - 1\\
+\hline
+\textbf{\texttt{CALL}} & stack[sp] $\leftarrow$ stack[sp - 1] \textcolor{blue}{$\|$} stack[sp - 1] $\leftarrow$ pc + 1 \textcolor{blue}{$\|$} pc $\leftarrow$ stack[sp]\\
+\hline
+\textbf{\texttt{RETURN}} & pc $\leftarrow$ stack[sp - 1] \textcolor{blue}{$\|$} stack[sp - 1] $\leftarrow$ stack[sp] \textcolor{blue}{$\|$} sp $\leftarrow$ sp - 1\\
+\hline
+\textbf{\texttt{BRANCH @1 @2}} & stack[sp] $\leftarrow$ if stack[sp] then @1 else @2\\
+\hline
+\textbf{\texttt{JUMP @}} & pc $\leftarrow$ @\\
+\hline
+
+\end{tabular}
+\end{center}
+
+\end{landscape}
+
+\end{document}

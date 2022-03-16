@@ -1,0 +1,187 @@
+\documentclass[12pt]{article}
+\usepackage{pdflscape}
+\usepackage{nopageno}
+\usepackage{color}
+\usepackage{stmaryrd}
+
+\begin{document}
+
+\thispagestyle{empty}
+
+\section*{Compilation}
+
+\subsection*{Variable}
+
+\begin{tabular}{l}
+
+\begin{tabular}{ccl}
+    $\llbracket x \rrbracket_{x::E}$ & $=$ & \texttt{FST}\\
+\end{tabular}\\
+\\
+\begin{tabular}{ccl}
+    $\llbracket x \rrbracket_{y::E}$ & $=$ & \texttt{SND}\\
+    & & $\llbracket x \rrbracket_{E}$
+\end{tabular}
+
+\end{tabular}
+
+\subsection*{Constant}
+
+\begin{tabular}{l}
+
+\begin{tabular}{ccl}
+    $\llbracket c \rrbracket_{E}$ & $=$ & \texttt{LOAD c}\\
+\end{tabular}
+        
+\end{tabular}
+    
+\subsection*{Pair}
+
+\begin{tabular}{l}
+
+\begin{tabular}{ccl}
+    $\llbracket (e_1, e_2) \rrbracket_{E}$ & $=$ & \texttt{DUPL}\\
+    & & $\llbracket e_2 \rrbracket_{E}$\\
+    & & \texttt{SWAP}\\
+    & & $\llbracket e_1 \rrbracket_{E}$\\
+    & & \texttt{CONS}\\
+\end{tabular}
+            
+\end{tabular}
+    
+
+\subsection*{Arithmetic Expression}
+
+\begin{tabular}{l}
+
+\begin{tabular}{ccl}
+    $\llbracket e_1 + e_2 \rrbracket_{E}$ & $=$ & \texttt{DUPL}\\
+    & & $\llbracket e_2 \rrbracket_{E}$\\
+    & & \texttt{SWAP}\\
+    & & $\llbracket e_1 \rrbracket_{E}$\\
+    & & \texttt{ADD}\\
+\end{tabular}\\
+\\            
+\begin{tabular}{ccl}
+    $\llbracket e_1 - e_2 \rrbracket_{E}$ & $=$ & \texttt{DUPL}\\
+    & & $\llbracket e_2 \rrbracket_{E}$\\
+    & & \texttt{SWAP}\\
+    & & $\llbracket e_1 \rrbracket_{E}$\\
+    & & \texttt{SUB}\\
+\end{tabular}
+\end{tabular}
+
+\begin{tabular}{l}
+\begin{tabular}{ccl}
+    $\llbracket e_1 \times e_2 \rrbracket_{E}$ & $=$ & \texttt{DUPL}\\
+    & & $\llbracket e_2 \rrbracket_{E}$\\
+    & & \texttt{SWAP}\\
+    & & $\llbracket e_1 \rrbracket_{E}$\\
+    & & \texttt{MUL}\\
+\end{tabular}\\
+\\
+\begin{tabular}{ccl}
+    $\llbracket e_1 = e_2 \rrbracket_{E}$ & $=$ & \texttt{DUPL}\\
+    & & $\llbracket e_2 \rrbracket_{E}$\\
+    & & \texttt{SWAP}\\
+    & & $\llbracket e_1 \rrbracket_{E}$\\
+    & & \texttt{EQ}\\
+\end{tabular}\\
+\\            
+\begin{tabular}{ccl}
+    $\llbracket e_1 < e_2 \rrbracket_{E}$ & $=$ & \texttt{DUPL}\\
+    & & $\llbracket e_2 \rrbracket_{E}$\\
+    & & \texttt{SWAP}\\
+    & & $\llbracket e_1 \rrbracket_{E}$\\
+    & & \texttt{LT}\\
+\end{tabular}
+\end{tabular}
+    
+\subsection*{Function}
+
+\begin{tabular}{l}
+
+\begin{tabular}{ccl}
+    $\llbracket \texttt{fun x -> e} \rrbracket_{E}$ & $=$ & \texttt{PUSH @}\\
+    & & \texttt{SWAP}\\
+    & & \texttt{CONS}\\
+\end{tabular}\\
+\\
+
+\begin{tabular}{ccl}
+where \texttt{@} is the address of & & $\llbracket e \rrbracket_{x::E}$\\
+    & & \texttt{RETURN}\\
+\end{tabular}
+        
+\end{tabular}
+    
+\subsection*{Application}
+
+\begin{tabular}{l}
+
+\begin{tabular}{ccl}
+    $\llbracket (e_1 e_2) \rrbracket_{E}$ & $=$ & \texttt{DUPL}\\
+    & & $\llbracket e_2 \rrbracket_{E}$\\
+    & & \texttt{SWAP}\\
+    & & $\llbracket e_1 \rrbracket_{E}$\\
+    & & \texttt{SPLIT}\\
+    & & \texttt{IROT3}\\
+    & & \texttt{CONS}\\
+    & & \texttt{SWAP}\\
+    & & \texttt{CALL}\\
+\end{tabular}
+            
+\end{tabular}
+    
+\subsection*{Conditional}
+
+\begin{tabular}{l}
+
+\begin{tabular}{ccl}
+    $\llbracket$ \texttt{if} $e_1$ \texttt{then} $e_2$ \texttt{else} $e_3 \rrbracket_{E}$ & $=$ & \texttt{DUPL}\\
+    & & $\llbracket e_1 \rrbracket_{E}$\\
+    & & \texttt{BRANCH} $@_2$ $@_3$\\
+    & & \texttt{CALL}\\
+\end{tabular}\\
+\\
+\begin{tabular}{ccl}
+where $@_2$ is the address of & & $\llbracket e_2 \rrbracket_{E}$\\
+    & & \texttt{RETURN}\\
+& &\\
+and $@_3$ is the address of & & $\llbracket e_3 \rrbracket_{E}$\\
+& & \texttt{RETURN}\\
+\end{tabular}
+          
+\end{tabular}
+    
+\subsection*{Let}
+
+\begin{tabular}{l}
+
+\begin{tabular}{ccl}
+    $\llbracket$ \texttt{let x} $= e_1$ \texttt{in} $e_2 \rrbracket_{E}$ & $=$ & \texttt{DUPL}\\
+    & & $\llbracket e_1 \rrbracket_{E}$\\
+    & & \texttt{CONS}\\
+    & & $\llbracket e_2 \rrbracket_{x::E}$\\
+\end{tabular}
+            
+\end{tabular}
+
+\subsection*{Letrec}
+
+\begin{tabular}{l}
+
+\begin{tabular}{ccl}
+    $\llbracket$ \texttt{letrec f} $= e_1$ \texttt{in} $e_2 \rrbracket_{E}$ & $=$ & \texttt{PUSH NIL}\\
+    & & \texttt{CONS}\\
+    & & $\llbracket e_1 \rrbracket_{f::E}$\\
+    & & \texttt{DUPL}\\
+    & & \texttt{FST}\\
+    & & \texttt{SWAP}\\
+    & & \texttt{SET\_FST}\\
+    & & $\llbracket e_2 \rrbracket_{f::E}$\\
+\end{tabular}
+            
+\end{tabular}
+
+\end{document}
